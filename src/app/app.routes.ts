@@ -12,18 +12,18 @@ export const routes: Routes = [
   },
   {
     path: 'cadastro-de-tarefa',
-    loadComponent: () => import('./cadastro-de-tarefa/cadastro-de-tarefa.page').then( m => m.CadastroDeTarefaPage)
+    loadComponent: () => import('./cadastro-de-tarefa/cadastro-de-tarefa.page').then(m => m.CadastroDeTarefaPage)
   },
   {
     path: 'lista-tarefa',
-    loadComponent: () => import('./lista-tarefa/lista-tarefa.page').then( m => m.ListaTarefaPage)
+    loadComponent: () => import('./lista-tarefa/lista-tarefa.page').then(m => m.ListaTarefaPage)
   },
   {
     path: 'detalhes-tarefa/:id',
-    loadComponent: () => import('./detalhes-tarefa/detalhes-tarefa.page').then( m => m.DetalhesTarefaPage)
-  },  {
-    path: 'cadastro-usuario',
-    loadComponent: () => import('./cadastro-usuario/cadastro-usuario.page').then( m => m.CadastroUsuarioPage)
+    loadComponent: () => import('./detalhes-tarefa/detalhes-tarefa.page').then(m => m.DetalhesTarefaPage)
   },
-
+  {
+    path: 'cadastro-usuario',
+    loadComponent: () => import('./cadastro-usuario/cadastro-usuario.page').then(m => m.UsuarioCadastroPage) // ✅ Corrigido aqui
+  },
 ];
