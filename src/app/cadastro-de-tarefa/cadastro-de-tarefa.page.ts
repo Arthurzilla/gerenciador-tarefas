@@ -11,6 +11,8 @@ import {
   IonList,
   IonButton,
   IonInput,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -19,17 +21,19 @@ import {
   styleUrls: ['./cadastro-de-tarefa.page.scss'],
   standalone: true,
   imports: [
+    CommonModule,
+    FormsModule,
     IonContent,
     IonHeader,
     IonTitle,
     IonToolbar,
-    CommonModule,
-    FormsModule,
     IonItem,
     IonLabel,
     IonList,
     IonButton,
     IonInput,
+    IonSelect,
+    IonSelectOption
   ],
 })
 export class CadastroDeTarefaPage implements OnInit {
@@ -37,18 +41,27 @@ export class CadastroDeTarefaPage implements OnInit {
 
   tarefas: any[] = [];
 
+  titulo = '';
+  descricao = '';
+  responsavel = '';
+  novaEtapa: string = '';
+  etapas: string[] = [];
+
+  // ✅ Lista de nomes fictícios para o select
+  nomesDisponiveis: string[] = [
+    'Ana Souza',
+    'Bruno Lima',
+    'Carla Mendes',
+    'Daniel Rocha',
+    'Eduarda Silva'
+  ];
+
   ngOnInit() {
     const tarefasSalvas = localStorage.getItem('tarefas');
     if (tarefasSalvas) {
       this.tarefas = JSON.parse(tarefasSalvas);
     }
   }
-
-  titulo = '';
-  descricao = '';
-  responsavel = '';
-  novaEtapa: string = '';
-  etapas: string[] = [];
 
   adicionarEtapa() {
     if (this.novaEtapa.trim()) {
@@ -63,7 +76,7 @@ export class CadastroDeTarefaPage implements OnInit {
 
   salvarTarefa() {
     const tarefa = {
-       id: new Date().getTime(),
+      id: new Date().getTime(),
       titulo: this.titulo,
       descricao: this.descricao,
       responsavel: this.responsavel,
@@ -73,18 +86,12 @@ export class CadastroDeTarefaPage implements OnInit {
       })),
     };
 
-    // Pega as tarefas já salvas ou começa com array vazio
     const tarefasSalvas = JSON.parse(localStorage.getItem('tarefas') || '[]');
-
-    // Adiciona nova tarefa ao array
     tarefasSalvas.push(tarefa);
-
-    // Salva a lista atualizada
     localStorage.setItem('tarefas', JSON.stringify(tarefasSalvas));
 
     console.log('Tarefa salva:', tarefa);
 
-    // Limpa o formulário depois de salvar
     this.titulo = '';
     this.descricao = '';
     this.responsavel = '';
