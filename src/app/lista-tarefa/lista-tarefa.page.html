@@ -11,6 +11,7 @@
       <h2>{{ tarefa.titulo }}</h2>
       <p>Responsável: {{ tarefa.responsavel }}</p>
       <p>Total de etapas: {{ tarefa.etapas.length }}</p>
+      <p>Status: {{ getStatus(tarefa) }}</p>
     </ion-label>
   </ion-item>
 </ion-list>

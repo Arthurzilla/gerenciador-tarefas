@@ -10,14 +10,29 @@
       <ion-card-title>{{ tarefa.titulo }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Responsável:</strong> {{ tarefa.responsavel }}</p>
+      <p><strong>Responsável:</strong>{{ tarefa.responsavel }}</p>
       <p><strong>Descrição:</strong> {{ tarefa.descricao }}</p>
       <p><strong>Etapas:</strong></p>
-      <ul>
-        <li *ngFor="let etapa of tarefa.etapas">
-          {{ etapa.nome }} - {{ etapa.concluida ? '✅' : '❌' }}
-        </li>
-      </ul>
+       <ion-list>
+        <ion-item *ngFor="let etapa of tarefa.etapas; let i = index">
+          <ion-label>
+            {{ etapa.nome }}
+            - {{ etapa.concluida ? '✅ Concluída' : '❌ Não concluída' }}
+          </ion-label>
+          <ion-checkbox
+            slot="end"
+            [(ngModel)]="etapa.concluida"
+            (ionChange)="atualizarEtapa(i)"
+          ></ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+      <ion-label>
+        <strong>Progresso da tarefa:</strong>
+      
+      </ion-label>
+
+       <ion-button expand="block" color="success" (click)="salvarTarefa()">Salvar Tarefa</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
