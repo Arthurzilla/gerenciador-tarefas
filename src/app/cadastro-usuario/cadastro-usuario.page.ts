@@ -13,9 +13,11 @@ import {
   IonText
 } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-import { auth, db } from 'src/app/firebase.config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
+import { getDatabase, ref, set } from "firebase/database";
+import { auth, db as firebaseDb } from 'src/app/firebase.config';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+const db = getDatabase();
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -71,7 +73,6 @@ export class CadastroUsuarioPage implements OnInit {
         })
       });
 
-      // this.router.navigate(['/login']);
     } catch (error: any) {
       console.error('Erro ao cadastrar:', error.message);
     }
