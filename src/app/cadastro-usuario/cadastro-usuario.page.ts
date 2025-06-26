@@ -12,7 +12,7 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { getDatabase, ref, set } from "firebase/database";
 import { auth, db as firebaseDb } from 'src/app/firebase.config';
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -44,7 +44,7 @@ export class CadastroUsuarioPage implements OnInit {
   email = '';
   senha = '';
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -59,6 +59,7 @@ export class CadastroUsuarioPage implements OnInit {
         criadoEm: new Date().toISOString()
       });
 
+      this.router.navigate(['/login-usuario']);
       console.log('Usuário cadastrado com sucesso!');
 
       await fetch('http://localhost/api/cadastrar.php', {

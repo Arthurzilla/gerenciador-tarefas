@@ -12,7 +12,9 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from 'src/app/firebase.config'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-usuario',
@@ -30,15 +32,30 @@ import { RouterLink } from '@angular/router';
     IonButton,
     IonText,
     CommonModule,
-    FormsModule,
-    RouterLink
+    FormsModule
   ]
 })
 export class LoginUsuarioPage implements OnInit {
+  public email:string = '';
+  public senha:string = '';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  async entrar(){
+    try{
+      const cred = await signInWithEmailAndPassword(auth, this.email,this.senha);
+      const token = await cred.user.getIdToken();
+
+      sessionStorage.setItem('token', token);
+      console.log("logado com sucesso")
+
+      this.router.navigate(['lista-tarefa'])
+
+    }catch (erro : any){
+      console.error("Erro ao fazer login: ", erro.message)
+    }
+  }
 }
