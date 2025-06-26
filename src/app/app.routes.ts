@@ -25,5 +25,9 @@ export const routes: Routes = [
     path: 'cadastro-usuario',
     loadComponent: () => import('./cadastro-usuario/cadastro-usuario.page').then( m => m.CadastroUsuarioPage)
   },
+  {
+    path: 'login-usuario',
+    loadComponent: () => import('./login-usuario/login-usuario.page').then( m => m.LoginUsuarioPage)
+  },
 
 ];

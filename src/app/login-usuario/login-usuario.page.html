@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Login</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-input label="Email" label-placement="floating" type="email" placeholder="seu@email.com"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Senha" label-placement="floating" type="senha" placeholder="Sua senha"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" class="ion-margin-top">Entrar</ion-button>
+
+
+    <ion-text class="ion-text-center ion-margin-top">
+      <p>Não tem uma conta? <a routerLink="/usuario-cadastro">Cadastre-se</a></p>
+    </ion-text>
+  </div>
+</ion-content>

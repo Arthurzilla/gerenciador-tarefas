@@ -12,12 +12,12 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router'; 
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-usuario-cadastro',
-  templateUrl: './cadastro-usuario.page.html',
-  styleUrls: ['./usuario-cadastro.page.scss'],
+  selector: 'app-login-usuario',
+  templateUrl: './login-usuario.page.html',
+  styleUrls: ['./login-usuario.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -31,10 +31,10 @@ import { RouterLink } from '@angular/router';
     IonText,
     CommonModule,
     FormsModule,
-    RouterLink 
+    RouterLink
   ]
 })
-export class UsuarioCadastroPage implements OnInit {
+export class LoginUsuarioPage implements OnInit {
 
   constructor() { }
 
