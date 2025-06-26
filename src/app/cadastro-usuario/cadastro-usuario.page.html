@@ -14,19 +14,19 @@
   <div class="ion-padding">
     <ion-list>
       <ion-item>
-        <ion-input label="Nome Completo" label-placement="floating" type="text" placeholder="Seu nome completo"></ion-input>
+        <ion-input label="Nome Completo" label-placement="floating" type="text" placeholder="Seu nome completo" [(ngModel)]="nome" name="nome"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Email" label-placement="floating" type="email" placeholder="seu@email.com"></ion-input>
+        <ion-input label="Email" label-placement="floating" type="email" placeholder="seu@email.com" [(ngModel)]="email" name="email"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Senha" label-placement="floating" type="password" placeholder="Sua senha"></ion-input>
+        <ion-input label="Senha" label-placement="floating" type="password" placeholder="Sua senha" [(ngModel)]="senha" name="senha"></ion-input>
       </ion-item>
     </ion-list>
 
-    <ion-button expand="block" class="ion-margin-top">Cadastrar</ion-button>
+    <ion-button expand="block" class="ion-margin-top" (click)="cadastrar()">Cadastrar</ion-button>
 
     <ion-text class="ion-text-center ion-margin-top">
       <p>Já tem uma conta? <a routerLink="/login">Faça login</a></p>

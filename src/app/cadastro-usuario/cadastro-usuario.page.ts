@@ -12,12 +12,15 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router'; 
+import { RouterLink } from '@angular/router';
+import { auth, db } from 'src/app/firebase.config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { ref, set } from 'firebase/database';
 
 @Component({
-  selector: 'app-usuario-cadastro',
-  templateUrl: './usuario-cadastro.page.html',
-  styleUrls: ['./usuario-cadastro.page.scss'],
+  selector: 'app-cadastro-usuario',
+  templateUrl: './cadastro-usuario.page.html',
+  styleUrls: ['./cadastro-usuario.page.scss'],
   standalone: true,
   imports: [
     IonContent,
@@ -31,14 +34,46 @@ import { RouterLink } from '@angular/router';
     IonText,
     CommonModule,
     FormsModule,
-    RouterLink 
+    RouterLink
   ]
 })
-export class UsuarioCadastroPage implements OnInit {
+export class CadastroUsuarioPage implements OnInit {
+  nome = '';
+  email = '';
+  senha = '';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async cadastrar() {
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, this.email, this.senha);
+      const uid = cred.user.uid;
+
+      await set(ref(db, 'usuarios/' + uid), {
+        nome: this.nome,
+        email: this.email,
+        criadoEm: new Date().toISOString()
+      });
+
+      console.log('Usuário cadastrado com sucesso!');
+
+      await fetch('http://localhost/api/cadastrar.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: this.nome,
+          email: this.email,
+          uid: uid
+        })
+      });
+
+      // this.router.navigate(['/login']);
+    } catch (error: any) {
+      console.error('Erro ao cadastrar:', error.message);
+    }
   }
-
 }
