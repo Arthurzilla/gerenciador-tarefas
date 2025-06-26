@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>detalhes-tarefa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="tarefa">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ tarefa.titulo }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Responsável:</strong> {{ tarefa.responsavel }}</p>
+      <p><strong>Descrição:</strong> {{ tarefa.descricao }}</p>
+      <p><strong>Etapas:</strong></p>
+      <ul>
+        <li *ngFor="let etapa of tarefa.etapas">
+          {{ etapa.nome }} - {{ etapa.concluida ? '✅' : '❌' }}
+        </li>
+      </ul>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

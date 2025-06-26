@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>cadastro-de-tarefa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">cadastro-de-tarefa</ion-title>
+
+      
+    </ion-toolbar>
+  </ion-header>
+  
+
+  <ion-item>
+    <ion-label position="stacked">Título</ion-label>
+     <ion-input [(ngModel)]="titulo" placeholder="Digite o título da tarefa"></ion-input>
+  </ion-item>
+
+   <ion-item>
+    <ion-label position="stacked">Descrição da tarefa</ion-label>
+    <ion-input [(ngModel)]="descricao" placeholder="descreve ai"></ion-input>
+  </ion-item>
+
+    <ion-item>
+    <ion-label position="stacked">Responsável</ion-label>
+    <ion-input [(ngModel)]="responsavel" placeholder="Nome do responsável"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Nome da Etapa</ion-label>
+    <ion-input [(ngModel)]="novaEtapa" placeholder="Digite o nome da etapa"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="adicionarEtapa()"> Adicionar Etapa</ion-button>
+
+
+    <ion-list>
+     <ion-item *ngFor="let etapa of etapas; let i = index">
+    {{ i + 1 }}. {{ etapa }}
+    <ion-button fill="clear" color="danger" slot="end" (click)="removerEtapa(i)">
+      🗑️
+    </ion-button>
+  </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="success" (click)="salvarTarefa()">Salvar Tarefa</ion-button>
+</ion-content>

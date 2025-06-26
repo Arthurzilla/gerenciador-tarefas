@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Lista de Tarefas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+  <ion-item button *ngFor="let tarefa of tarefas" (click)="abrirDetalhes(tarefa.id)">
+    <ion-label>
+      <h2>{{ tarefa.titulo }}</h2>
+      <p>Responsável: {{ tarefa.responsavel }}</p>
+      <p>Total de etapas: {{ tarefa.etapas.length }}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+</ion-content>
