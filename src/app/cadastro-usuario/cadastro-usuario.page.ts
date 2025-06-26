@@ -1,16 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonList,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonText
+} from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router'; 
 
 @Component({
-  selector: 'app-cadastro-usuario',
-  templateUrl: './cadastro-usuario.page.html',
-  styleUrls: ['./cadastro-usuario.page.scss'],
+  selector: 'app-usuario-cadastro',
+  templateUrl: './usuario-cadastro.page.html',
+  styleUrls: ['./usuario-cadastro.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonText,
+    CommonModule,
+    FormsModule,
+    RouterLink 
+  ]
 })
-export class CadastroUsuarioPage implements OnInit {
+export class UsuarioCadastroPage implements OnInit {
 
   constructor() { }
 
