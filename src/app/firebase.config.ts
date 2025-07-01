@@ -1,8 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
+import { getFirestore } from 'firebase/firestore';
 
-const firebaseConfig = {
+
+export const firebaseConfig = {
   apiKey: "AIzaSyCy0xZbrYID-l_kfpwbj69r52PblxkSE-U",
   authDomain: "gerenciador-tarefas-9ffc9.firebaseapp.com",
   projectId: "gerenciador-tarefas-9ffc9",
@@ -16,3 +18,4 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getDatabase(app);
+export const firestore = getFirestore(app);
