@@ -9,10 +9,16 @@
   <ion-item button *ngFor="let tarefa of tarefas" (click)="abrirDetalhes(tarefa.id)">
     <ion-label>
       <h2>{{ tarefa.titulo }}</h2>
-      <p>Responsável: {{ tarefa.responsavel }}</p>
+      <p>Responsável: {{tarefa.responsavel?.nome}}</p>
       <p>Total de etapas: {{ tarefa.etapas.length }}</p>
       <p>Status: {{ getStatus(tarefa) }}</p>
     </ion-label>
   </ion-item>
 </ion-list>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-button (click)="irParaCadastro()">
+<ion-icon name="add"></ion-icon>
+  </ion-button>
+</ion-fab>
 </ion-content>

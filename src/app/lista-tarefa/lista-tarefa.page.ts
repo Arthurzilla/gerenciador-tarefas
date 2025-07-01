@@ -42,4 +42,8 @@ export class ListaTarefaPage implements OnInit, ViewWillEnter {
   return concluidas === total && total > 0 ? '- Concluída' : '- Em andamento';
 }
 
+irParaCadastro() {
+  this.router.navigate(['/cadastro-de-tarefa']);
+}
+
 }

@@ -25,10 +25,10 @@
   <ion-item>
     <ion-label position="stacked">Responsável</ion-label>
     <ion-select [(ngModel)]="responsavel" placeholder="Selecione um responsável">
-      <ion-select-option *ngFor="let nome of nomesDisponiveis" [value]="nome">
-        {{ nome }}
-      </ion-select-option>
-    </ion-select>
+    <ion-select-option *ngFor="let usuario of nomesDisponiveis" [value]="usuario">
+      {{ usuario.nome }}
+    </ion-select-option>
+  </ion-select>
   </ion-item>
 
   <ion-item>

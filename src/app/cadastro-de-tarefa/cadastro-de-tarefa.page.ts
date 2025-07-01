@@ -15,6 +15,9 @@ import {
   IonSelectOption
 } from '@ionic/angular/standalone';
 
+import { db } from '../firebase.config';
+import { ref, onValue, push } from 'firebase/database';
+
 @Component({
   selector: 'app-cadastro-de-tarefa',
   templateUrl: './cadastro-de-tarefa.page.html',
@@ -39,28 +42,29 @@ import {
 export class CadastroDeTarefaPage implements OnInit {
   constructor() {}
 
-  tarefas: any[] = [];
-
   titulo = '';
   descricao = '';
-  responsavel = '';
+  responsavel: any = null; // agora será um objeto com id e nome
   novaEtapa: string = '';
   etapas: string[] = [];
-
-  // ✅ Lista de nomes fictícios para o select
-  nomesDisponiveis: string[] = [
-    'Ana Souza',
-    'Bruno Lima',
-    'Carla Mendes',
-    'Daniel Rocha',
-    'Eduarda Silva'
-  ];
+  nomesDisponiveis: any[] = []; // lista de objetos: { id, nome }
 
   ngOnInit() {
-    const tarefasSalvas = localStorage.getItem('tarefas');
-    if (tarefasSalvas) {
-      this.tarefas = JSON.parse(tarefasSalvas);
-    }
+    this.carregarUsuarios();
+  }
+
+  carregarUsuarios() {
+    const usuariosRef = ref(db, 'usuarios');
+
+    onValue(usuariosRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        this.nomesDisponiveis = Object.entries(data).map(([id, usuario]: any) => ({
+          id,
+          nome: usuario.nome
+        }));
+      }
+    });
   }
 
   adicionarEtapa() {
@@ -75,26 +79,29 @@ export class CadastroDeTarefaPage implements OnInit {
   }
 
   salvarTarefa() {
-    const tarefa = {
-      id: new Date().getTime(),
+    const novaTarefa = {
       titulo: this.titulo,
       descricao: this.descricao,
-      responsavel: this.responsavel,
+      responsavel: this.responsavel, // objeto { id, nome }
       etapas: this.etapas.map((etapa) => ({
         nome: etapa,
-        concluida: false,
+        concluida: false
       })),
+      dataCriacao: new Date().toISOString()
     };
 
-    const tarefasSalvas = JSON.parse(localStorage.getItem('tarefas') || '[]');
-    tarefasSalvas.push(tarefa);
-    localStorage.setItem('tarefas', JSON.stringify(tarefasSalvas));
-
-    console.log('Tarefa salva:', tarefa);
-
-    this.titulo = '';
-    this.descricao = '';
-    this.responsavel = '';
-    this.etapas = [];
+    const tarefasRef = ref(db, 'tarefas');
+    push(tarefasRef, novaTarefa)
+      .then(() => {
+        console.log('Tarefa salva com sucesso no Firebase');
+        // limpar campos
+        this.titulo = '';
+        this.descricao = '';
+        this.responsavel = null;
+        this.etapas = [];
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar tarefa:', error);
+      });
   }
 }
