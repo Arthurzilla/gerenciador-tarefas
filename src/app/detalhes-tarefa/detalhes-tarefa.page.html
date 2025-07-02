@@ -13,26 +13,25 @@
       <p><strong>Responsável:</strong> {{ tarefa.responsavel?.nome}}</p>
       <p><strong>Descrição:</strong> {{ tarefa.descricao }}</p>
       <p><strong>Etapas:</strong></p>
-       <ion-list>
+      <ion-list>
         <ion-item *ngFor="let etapa of tarefa.etapas; let i = index">
           <ion-label>
             {{ etapa.nome }}
             - {{ etapa.concluida ? '✅ Concluída' : '❌ Não concluída' }}
           </ion-label>
-          <ion-checkbox
-            slot="end"
-            [(ngModel)]="etapa.concluida"
-            (ionChange)="atualizarEtapa(i)"
-          ></ion-checkbox>
+          <ion-checkbox slot="end" [(ngModel)]="etapa.concluida" (ionChange)="atualizarEtapa(i)"></ion-checkbox>
         </ion-item>
       </ion-list>
 
       <ion-label>
         <strong>Progresso da tarefa:</strong>
-      
       </ion-label>
+      <ion-progress-bar [value]="progresso" color="primary"></ion-progress-bar>
+      <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+        <small>{{ progressoPorcentagem }} concluída</small>
+      </div>
 
-       <ion-button expand="block" color="success" (click)="salvarTarefa()">Salvar Tarefa</ion-button>
+      <ion-button expand="block" color="success" (click)="salvarTarefa()">Salvar Tarefa</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

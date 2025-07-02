@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-// ⚠️ ATENÇÃO AQUI: As importações mudaram para o Realtime Database
-import { Database, ref, onValue } from '@angular/fire/database'; // Importe 'Database', 'ref', 'onValue'
+import { Database, ref, onValue } from '@angular/fire/database';
 
 @Component({
   selector: 'app-lista-tarefa',
@@ -16,7 +15,6 @@ export class ListaTarefaPage implements OnInit {
 
   tarefas: any[] = [];
 
-  // O construtor está correto, injetando o 'Database' do Realtime Database
   constructor(private router: Router, private database: Database) {}
 
   ngOnInit() {
@@ -24,26 +22,14 @@ export class ListaTarefaPage implements OnInit {
   }
 
   carregarTarefas() {
-    // ✅ CORRETO: Cria uma referência para o nó 'tarefas' no Realtime Database
     const tarefasRef = ref(this.database, 'tarefas');
-
-    // ✅ CORRETO: Usa 'onValue' para escutar os dados do Realtime Database
     onValue(tarefasRef, (snapshot) => {
-      const dados = snapshot.val(); // Pega os dados do snapshot do Realtime Database
-      console.log('Dados recebidos do Realtime Database:', dados);
-
-      // O Realtime Database retorna um objeto de objetos, onde as chaves são os IDs.
-      // Precisamos converter isso para um array de objetos para usar com *ngFor.
+      const dados = snapshot.val();
       if (dados) {
         this.tarefas = Object.keys(dados).map(key => ({ id: key, ...dados[key] }));
       } else {
-        this.tarefas = []; // Se não houver dados, garante que o array esteja vazio
+        this.tarefas = [];
       }
-    }, {
-      // Opcional: callback de erro para depuração
-      // (error) => {
-      //   console.error("Erro ao carregar tarefas do RTDB:", error);
-      // }
     });
   }
 
@@ -57,7 +43,16 @@ export class ListaTarefaPage implements OnInit {
     return concluidas === total && total > 0 ? '- Concluída' : '- Em andamento';
   }
 
-  irParaCadastro() {
+  // Método para calcular o progresso (valor entre 0 e 1)
+  getProgresso(tarefa: any): number {
+    if (!tarefa?.etapas?.length) return 0;
+    const total = tarefa.etapas.length;
+    const concluidas = tarefa.etapas.filter((e: any) => e.concluida).length;
+    return concluidas / total;
+  }
+
+    irParaCadastro() {
     this.router.navigate(['/cadastro-de-tarefa']);
   }
+
 }

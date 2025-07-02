@@ -5,7 +5,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <div class="ion-padding">
+    <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">cadastro-de-tarefa</ion-title>
     </ion-toolbar>
@@ -21,7 +22,6 @@
     <ion-input [(ngModel)]="descricao" placeholder="Descreva aqui"></ion-input>
   </ion-item>
 
-  <!-- Substituindo o input por um select -->
   <ion-item>
     <ion-label position="stacked">Responsável</ion-label>
     <ion-select [(ngModel)]="responsavel" placeholder="Selecione um responsável">
@@ -48,4 +48,5 @@
   </ion-list>
 
   <ion-button expand="block" color="success" (click)="salvarTarefa()">Salvar Tarefa</ion-button>
+  </div>
 </ion-content>
