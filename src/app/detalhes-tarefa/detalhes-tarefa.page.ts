@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { Database, ref, get, child, update } from '@angular/fire/database';
 
 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardTitle, IonCardHeader, IonCardContent, IonList, IonLabel, IonItem, IonCheckbox, IonButton} from '@ionic/angular/standalone';
@@ -17,39 +18,37 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardTitle, Ion
 export class DetalhesTarefaPage implements OnInit {
 
    tarefa: any;
+   id: string = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router,
+    private db: Database
+  ) { }
 
-  ngOnInit() {
-     const id = Number(this.route.snapshot.paramMap.get('id'));
-    const tarefas = JSON.parse(localStorage.getItem('tarefas') || '[]');
-    this.tarefa = tarefas.find((t: any) => t.id === id);
+  async ngOnInit() {
+     this.id = this.route.snapshot.paramMap.get('id') || '';
+
+     if(this.id){
+      const tarefaRef = ref(this.db, `tarefas/${this.id}`);
+      const snapshot = await get(tarefaRef);
+      if(snapshot.exists()){
+        this.tarefa = snapshot.val();
+      } else {
+        console.error('tarefa não encontrada');
+      }
+     }
   }
 
-  atualizarEtapa(index: number) {
-  const tarefas = JSON.parse(localStorage.getItem('tarefas') || '[]');
-  const tarefaIndex = tarefas.findIndex((t: any) => t.id === this.tarefa.id);
-
-  if (tarefaIndex !== -1) {
-    tarefas[tarefaIndex].etapas[index].concluida = this.tarefa.etapas[index].concluida;
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
-  }
+  async atualizarEtapa(index: number) {
+     const etapaRef = ref(this.db, `tarefas/${this.id}/etapas/${index}/concluida`);
+    const concluida = this.tarefa.etapas[index].concluida;
+    await update(etapaRef, { '.value': concluida });
 }
 
-salvarTarefa() {
-  const tarefas = JSON.parse(localStorage.getItem('tarefas') || '[]');
-  const tarefaIndex = tarefas.findIndex((t: any) => t.id === this.tarefa.id);
-
-  if (tarefaIndex !== -1) {
-    tarefas[tarefaIndex] = this.tarefa;
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
-  }
-
-   this.router.navigate(['/lista-tarefa']);
+async salvarTarefa() {
+  const tarefaRef = ref(this.db, `tarefas/${this.id}`)
+  await update(tarefaRef, this.tarefa);
+    this.router.navigate(['/lista-tarefa']);
 }
-
-
-
-  
-
 }

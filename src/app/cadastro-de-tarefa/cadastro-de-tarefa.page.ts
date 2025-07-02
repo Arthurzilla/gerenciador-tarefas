@@ -17,6 +17,7 @@ import {
 
 import { db } from '../firebase.config';
 import { ref, onValue, push } from 'firebase/database';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-cadastro-de-tarefa',
@@ -40,7 +41,7 @@ import { ref, onValue, push } from 'firebase/database';
   ],
 })
 export class CadastroDeTarefaPage implements OnInit {
-  constructor() {}
+  constructor(private router: Router) {}
 
   titulo = '';
   descricao = '';
@@ -79,6 +80,25 @@ export class CadastroDeTarefaPage implements OnInit {
   }
 
   salvarTarefa() {
+      if (!this.titulo || !this.titulo.trim()) {
+    alert('O título da tarefa é obrigatório.');
+    return;
+  }
+
+  if (!this.descricao || !this.descricao.trim()) {
+    alert('A descrição da tarefa é obrigatória.');
+    return;
+  }
+
+  if (!this.responsavel) {
+    alert('Você precisa selecionar um responsável.');
+    return;
+  }
+
+  if (!this.etapas || this.etapas.length === 0 || this.etapas.some(e => !e || !e.trim())) {
+    alert('Adicione pelo menos uma etapa válida.');
+    return;
+  }
     const novaTarefa = {
       titulo: this.titulo,
       descricao: this.descricao,
@@ -99,6 +119,8 @@ export class CadastroDeTarefaPage implements OnInit {
         this.descricao = '';
         this.responsavel = null;
         this.etapas = [];
+
+         this.router.navigate(['/lista-tarefa']);
       })
       .catch((error) => {
         console.error('Erro ao salvar tarefa:', error);
