@@ -41,6 +41,7 @@ export class CadastroUsuarioPage implements OnInit {
   senha = '';
 
   constructor(
+    public router: Router,
       public rs: RequisicaoService
     ) {}
 
@@ -61,7 +62,7 @@ export class CadastroUsuarioPage implements OnInit {
     this.rs.post(fd).subscribe({
       next: (res) => {
         console.log("Resposta:", res);
-        
+        this.router.navigate(['/login-usuario']);
         alert("Usuário cadastrado com sucesso!");
       },
       error: (err) => {

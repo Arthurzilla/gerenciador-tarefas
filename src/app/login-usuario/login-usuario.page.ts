@@ -39,18 +39,21 @@ export class LoginUsuarioPage implements OnInit {
   public senha:string = '';
 
   constructor(
+    public router:Router,
     public autenticacao_service:AutenticacaoService
     ) { }
 
   ngOnInit() {
   }
 
-  async entrar(){
+  logar(){
+
     this.autenticacao_service
     .logar(this.email,this.senha)
     .subscribe(
       (_res:any) =>{
-          if (_res.status == 'sucess'){
+          if (_res.status == 'success'){
+            this.router.navigate(['/lista-tarefa']);
             console.log("deu bom")
             sessionStorage.setItem('token', _res.token);
           }else{
