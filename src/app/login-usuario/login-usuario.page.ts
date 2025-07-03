@@ -12,7 +12,7 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AutenticacaoService } from '../service/autenticacao.service';
 
 @Component({
