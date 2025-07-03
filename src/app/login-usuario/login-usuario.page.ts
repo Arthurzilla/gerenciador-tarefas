@@ -35,31 +35,30 @@ import { AutenticacaoService } from '../service/autenticacao.service';
   ]
 })
 export class LoginUsuarioPage implements OnInit {
-  public email:string = '';
-  public senha:string = '';
+  public email: string = '';
+  public senha: string = '';
 
   constructor(
-    public router:Router,
-    public autenticacao_service:AutenticacaoService
-    ) { }
+    public router: Router,
+    public autenticacao_service: AutenticacaoService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  logar(){
-
-    this.autenticacao_service
-    .logar(this.email,this.senha)
-    .subscribe(
-      (_res:any) =>{
-          if (_res.status == 'success'){
-            this.router.navigate(['/lista-tarefa']);
-            console.log("deu bom")
-            sessionStorage.setItem('token', _res.token);
-          }else{
-            console.log("deu ruim")
-          }
+  logar() {
+    this.autenticacao_service.logar(this.email, this.senha).subscribe(
+      (res: any) => {
+        if (res.status === 'success') {
+          sessionStorage.setItem('token', res.token);
+          console.log('deu bom');
+          this.router.navigate(['/lista-tarefa']);
+        } else {
+          console.log('deu ruim');
+        }
+      },
+      (error) => {
+        console.error('Erro na requisição:', error);
       }
-    )
+    );
   }
 }
