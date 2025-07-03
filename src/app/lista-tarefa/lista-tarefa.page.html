@@ -5,6 +5,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <div class="ion-padding">
+
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          <p>Progresso total das tarefas:</p>
+          <ion-progress-bar  [value]="getProgressoTotal()" color="primary"></ion-progress-bar>
+          <small>{{(getProgressoTotal() * 100) | number:'1.0-2' }}% Concluído</small>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  
+
   <div class="ion-padding">
      <ion-list>
     <ion-item button *ngFor="let tarefa of tarefas" (click)="abrirDetalhes(tarefa.id)">

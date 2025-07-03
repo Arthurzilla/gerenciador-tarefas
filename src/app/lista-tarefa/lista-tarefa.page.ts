@@ -55,4 +55,20 @@ export class ListaTarefaPage implements OnInit {
     this.router.navigate(['/cadastro-de-tarefa']);
   }
 
+  getProgressoTotal(): number {
+    const tarefasComEtapas = this.tarefas.filter(t => t.etapas?.length);
+
+    if(tarefasComEtapas.length === 0) return 0;
+
+    let totalEtapas = 0
+    let etapasConluidas = 0;
+
+    for (const tarefa of tarefasComEtapas) {
+      totalEtapas += tarefa.etapas.length;
+      etapasConluidas += tarefa.etapas.filter((e: any)=> e.concluida).length
+    }
+
+    return totalEtapas === 0 ? 0 : etapasConluidas / totalEtapas;
+  }
+
 }
