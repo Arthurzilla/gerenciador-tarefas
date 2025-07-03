@@ -31,7 +31,8 @@ import { AutenticacaoService } from '../service/autenticacao.service';
     IonButton,
     IonText,
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ]
 })
 export class LoginUsuarioPage implements OnInit {
