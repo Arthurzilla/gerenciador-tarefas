@@ -13,11 +13,7 @@ import {
   IonText
 } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
-import { getDatabase, ref, set } from "firebase/database";
-import { auth, db as firebaseDb } from 'src/app/firebase.config';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-const db = getDatabase();
+import { RequisicaoService } from '../service/requicisao.service';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -44,38 +40,35 @@ export class CadastroUsuarioPage implements OnInit {
   email = '';
   senha = '';
 
-  constructor(private router: Router) {}
+  constructor(
+      public rs: RequisicaoService
+    ) {}
 
   ngOnInit() {}
 
   async cadastrar() {
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, this.email, this.senha);
-      const uid = cred.user.uid;
-
-      await set(ref(db, 'usuarios/' + uid), {
-        nome: this.nome,
-        email: this.email,
-        criadoEm: new Date().toISOString()
-      });
-
-      this.router.navigate(['/login-usuario']);
-      console.log('Usuário cadastrado com sucesso!');
-
-      await fetch('http://localhost/api/cadastrar.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nome: this.nome,
-          email: this.email,
-          uid: uid
-        })
-      });
-
-    } catch (error: any) {
-      console.error('Erro ao cadastrar:', error.message);
+    if (!this.nome || !this.email || !this.senha) {
+      alert("Preencha todos os campos.");
+      return;
     }
+
+    const fd = new FormData();
+    fd.append('controller', 'cadastro-usuario');
+    fd.append('nome', this.nome);
+    fd.append('email', this.email);
+    fd.append('senha', this.senha);
+
+    this.rs.post(fd).subscribe({
+      next: (res) => {
+        console.log("Resposta:", res);
+        
+        alert("Usuário cadastrado com sucesso!");
+      },
+      error: (err) => {
+
+        console.error("Erro:", err);
+        alert("Erro ao cadastrar usuário.");
+      }
+    });
   }
 }

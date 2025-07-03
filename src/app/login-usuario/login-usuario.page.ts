@@ -12,9 +12,8 @@ import {
   IonButton,
   IonText
 } from '@ionic/angular/standalone';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from 'src/app/firebase.config'; 
 import { Router } from '@angular/router';
+import { AutenticacaoService } from '../service/autenticacao.service';
 
 @Component({
   selector: 'app-login-usuario',
@@ -39,23 +38,25 @@ export class LoginUsuarioPage implements OnInit {
   public email:string = '';
   public senha:string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    public autenticacao_service:AutenticacaoService
+    ) { }
 
   ngOnInit() {
   }
 
   async entrar(){
-    try{
-      const cred = await signInWithEmailAndPassword(auth, this.email,this.senha);
-      const token = await cred.user.getIdToken();
-
-      sessionStorage.setItem('token', token);
-      console.log("logado com sucesso")
-
-      this.router.navigate(['lista-tarefa'])
-
-    }catch (erro : any){
-      console.error("Erro ao fazer login: ", erro.message)
-    }
+    this.autenticacao_service
+    .logar(this.email,this.senha)
+    .subscribe(
+      (_res:any) =>{
+          if (_res.status == 'sucess'){
+            console.log("deu bom")
+            sessionStorage.setItem('token', _res.token);
+          }else{
+            console.log("deu ruim")
+          }
+      }
+    )
   }
 }

@@ -1,0 +1,31 @@
+import { Injectable } from '@angular/core';
+import { RequisicaoService } from './requicisao.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class AutenticacaoService{
+
+  constructor(
+    public rs:RequisicaoService
+  ) { }
+
+    logar(email:string,senha:string){
+      const fd = new FormData();
+      fd.append('controller','logar');
+      fd.append('email', email);
+      fd.append('senha',senha)
+
+      return this.rs
+      .post(fd)
+    }
+
+    validarToken(_token:string){
+      return this.rs.get({
+        controller:'validar-token',
+        token:_token
+      })
+    }
+
+}
