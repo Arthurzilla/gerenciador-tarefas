@@ -1,8 +1,7 @@
-import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import { getFirestore } from 'firebase/firestore';
-
+import { getApp } from 'firebase/app';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCy0xZbrYID-l_kfpwbj69r52PblxkSE-U",
@@ -14,8 +13,6 @@ export const firebaseConfig = {
   databaseURL: "https://gerenciador-tarefas-9ffc9-default-rtdb.firebaseio.com"
 };
 
-const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
-export const db = getDatabase(app);
-export const firestore = getFirestore(app);
+export const auth = getAuth(getApp());
+export const db = getDatabase(getApp());
+export const firestore = getFirestore(getApp());
